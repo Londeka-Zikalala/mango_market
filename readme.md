@@ -1,5 +1,5 @@
 # The mango market
-
+[![NodeJS CI with PostgreSQL](https://github.com/Londeka-Zikalala/mango_market/actions/workflows/node.js.yml/badge.svg)](https://github.com/Londeka-Zikalala/mango_market/actions/workflows/node.js.yml)
 The Mango market stalls are regularly running mango specials. Help your friend Vusi to purchase mangos  on special for his fruit and veg shop. With the factory function in `mango-shopper.js` create a web application that will help Vusi to see which mangos are on special.
 
 Use the sql script in `sql/tables.sql` to create the required tables in your local database.
