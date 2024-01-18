@@ -1,4 +1,4 @@
-module.exports = function (db) {
+ function mangoShopper(db){
 
 	async function createShop(shopName) {
 		
@@ -36,3 +36,5 @@ module.exports = function (db) {
 
 
 }
+
+export default mangoShopper

@@ -1,15 +1,18 @@
-let assert = require("assert");
-const pgp = require('pg-promise')();
-let MangoShopper = require("../mango-shopper");
-require('dotenv').config()
+import assert from 'assert';
+import pgPromise from 'pg-promise';
+import dotenv from 'dotenv';
+import mangoShopper from '../mango-shopper.js';
 
+dotenv.config();
+
+const pgp = pgPromise();
 // TODO configure this to work.
 const connectionString = process.env.DATABASE_URL || 'postgresql://@localhost:5432/mango_shopper';
 
 const db = pgp(connectionString);
 
 describe('The mango shopper', function () {
-
+    this.timeout(6000)
     beforeEach(async function () {
         await db.none(`delete from mango_deal;`)
         await db.none(`delete from shop;`)
@@ -17,43 +20,43 @@ describe('The mango shopper', function () {
 
     it('should be able to create a shop', async function () {
 
-        const mangoShopper = MangoShopper(db);
+        const mangoShopperT = mangoShopper(db);
 
-        await mangoShopper.createShop('Mango Market');
-        const shops = await await mangoShopper.listShops();
+        await mangoShopperT.createShop('Mango Market');
+        const shops = await await mangoShopperT.listShops();
 
         assert.equal('Mango Market', shops[0].name);
     });
 
     it('should be able to return a list of all shops', async function () {
 
-        const mangoShopper = MangoShopper(db);
+        const mangoShopperT = mangoShopper(db);
 
-        const beforeShops = await mangoShopper.listShops();
+        const beforeShops = await mangoShopperT.listShops();
         assert.deepStrictEqual(0, beforeShops.length);
 
-        await mangoShopper.createShop('Mango Market');
-        await mangoShopper.createShop('Mangos to Go');
-        await mangoShopper.createShop('Corner Veggies');
+        await mangoShopperT.createShop('Mango Market');
+        await mangoShopperT.createShop('Mangos to Go');
+        await mangoShopperT.createShop('Corner Veggies');
 
-        const shops = await mangoShopper.listShops();
+        const shops = await mangoShopperT.listShops();
         assert.deepStrictEqual(3, shops.length);
 
     });
 
     it('should be able to create an mango deal and find it again', async function () {
 
-        const mangoShopper = MangoShopper(db);
+        const mangoShopperT = mangoShopper(db);
 
-        const shopId = await mangoShopper.createShop('Mango Market');
-        await mangoShopper.createDeal(shopId, 5, 28);
+        const shopId = await mangoShopperT.createShop('Mango Market');
+        await mangoShopperT.createDeal(shopId, 5, 28);
 
         assert.equal();
     })
 
     it('should return all the deals for a given shop', async function () {
 
-        const mangoShopper = MangoShopper(db);
+        const mangoShopperT = mangoShopper(db);
 
         assert.deepEqual();
 
@@ -61,24 +64,24 @@ describe('The mango shopper', function () {
 
     it('should return the top 5 deals', async function () {
 
-        const mangoShopper = MangoShopper(db);
+        const mangoShopperT = mangoShopper(db);
 
-        const shopId1 = await mangoShopper.createShop('Mango Market');
-        const shopId2 = await mangoShopper.createShop('Max Mangos');
+        const shopId1 = await mangoShopperT.createShop('Mango Market');
+        const shopId2 = await mangoShopperT.createShop('Max Mangos');
 
         const createDeals = [
-            mangoShopper.createDeal(shopId1, 5, 38),
-            mangoShopper.createDeal(shopId2, 4, 35),
-            mangoShopper.createDeal(shopId1, 4, 28),
-            mangoShopper.createDeal(shopId1, 3, 28),
-            mangoShopper.createDeal(shopId2, 2, 28),
-            mangoShopper.createDeal(shopId1, 1, 28),
-            mangoShopper.createDeal(shopId1, 3, 32),
-            mangoShopper.createDeal(shopId1, 2, 28)];
+            mangoShopperT.createDeal(shopId1, 5, 38),
+            mangoShopperT.createDeal(shopId2, 4, 35),
+            mangoShopperT.createDeal(shopId1, 4, 28),
+            mangoShopperT.createDeal(shopId1, 3, 28),
+            mangoShopperT.createDeal(shopId2, 2, 28),
+            mangoShopperT.createDeal(shopId1, 1, 28),
+            mangoShopperT.createDeal(shopId1, 3, 32),
+            mangoShopperT.createDeal(shopId1, 2, 28)];
 
         await Promise.all(createDeals);
 
-        const topFiveDeals = await mangoShopper.topFiveDeals();
+        const topFiveDeals = await mangoShopperT.topFiveDeals();
 
         assert.equal(5, topFiveDeals.length);
 
@@ -122,23 +125,23 @@ describe('The mango shopper', function () {
 
     it('should return the recommeded deals', async function () {
 
-        const mangoShopper = MangoShopper(db);
+        const mangoShopperT = MangoShopper(db);
 
-        const shopId1 = await mangoShopper.createShop('Mango Market');
-        const shopId2 = await mangoShopper.createShop('Max Mangos');
+        const shopId1 = await mangoShopperT.createShop('Mango Market');
+        const shopId2 = await mangoShopperT.createShop('Max Mangos');
 
         const createDeals = [
-            mangoShopper.createDeal(shopId1, 5, 40),
-            mangoShopper.createDeal(shopId2, 4, 35),
-            mangoShopper.createDeal(shopId1, 4, 28),
-            mangoShopper.createDeal(shopId1, 3, 28),
-            mangoShopper.createDeal(shopId2, 2, 25),
-            mangoShopper.createDeal(shopId1, 1, 15),
-            mangoShopper.createDeal(shopId1, 3, 32)];
+            mangoShopperT.createDeal(shopId1, 5, 40),
+            mangoShopperT.createDeal(shopId2, 4, 35),
+            mangoShopperT.createDeal(shopId1, 4, 28),
+            mangoShopperT.createDeal(shopId1, 3, 28),
+            mangoShopperT.createDeal(shopId2, 2, 25),
+            mangoShopperT.createDeal(shopId1, 1, 15),
+            mangoShopperT.createDeal(shopId1, 3, 32)];
 
         await Promise.all(createDeals);
 
-        const recommendDeals = await mangoShopper.recommendDeals(30);
+        const recommendDeals = await mangoShopperT.recommendDeals(30);
 
         assert.equal(4, recommendDeals.length);
 
