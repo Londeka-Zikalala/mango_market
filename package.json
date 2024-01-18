@@ -25,8 +25,8 @@
   "contributors": [],
   "scripts": {
     "dev": "",
-    "test": "mocha",
-    "start":"node index.js"
+    "test": "mocha"
+   
   },
   "dependencies": {
     "body-parser": "^1.20.2",
@@ -35,5 +35,6 @@
     "express-handlebars": "^7.1.2",
     "mocha": "^10.2.0",
     "pg-promise": "^11.5.4"
-  }
+  },
+  "start":"node index.js"
 }
