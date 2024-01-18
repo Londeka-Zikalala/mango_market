@@ -45,10 +45,20 @@ function mangoShopperRoutes(mangodb){
             let shopName = req.body.shopName;
             let price = req.body.price;
             let quantity = req.body.quantity;
+            let message;
+          
             //insert and post the values
-            await mangodb.createDeal(shopName, price, quantity)
+            let deal = await mangodb.createDeal(shopName, price, quantity)
+           
+            // validate the deal
+            if (deal) {
+                message = "Deal Created !"
+                console.log(message, deal)
+            }
             //show the page
-            res.render('create')
+            res.render('create', {
+                message
+            })
         
         }
         catch (error) {

@@ -10,7 +10,7 @@
 			shop = await db.one(`INSERT INTO shop (name) VALUES ($1) RETURNING *`, [shopName]);
 		}
 
-			 return shop
+			 return shop.id
 	  
 		 } catch (error) {
 			 console.log(error.message)

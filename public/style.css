@@ -36,6 +36,9 @@ h3{
 	color:white;
 }
 
+.message{
+	color:green;
+}
 
 /********** SMALL SCREENS *********/
 @media only screen and (max-width: 34em) {
