@@ -7,7 +7,7 @@ dotenv.config();
 
 const pgp = pgPromise();
 // TODO configure this to work.
-const connectionString = process.env.DATABASE_URL || 'postgresql://@localhost:5432/mango_shopper';
+const connectionString = process.env.DATABASE_URL;
 
 const db = pgp(connectionString);
 
@@ -49,16 +49,26 @@ describe('The mango shopper', function () {
         const mangoShopperT = mangoShopper(db);
 
         const shopId = await mangoShopperT.createShop('Mango Market');
-        await mangoShopperT.createDeal(shopId, 5, 28);
+        let deal = await mangoShopperT.createDeal(shopId, 5, 28);
 
-        assert.equal();
+        assert.equal(deal,{
+            id: 175,
+            price: '28.00',
+            qty: 5,
+            shop_id: 291
+          }
+          );
     })
 
     it('should return all the deals for a given shop', async function () {
 
         const mangoShopperT = mangoShopper(db);
-
-        assert.deepEqual();
+        const shopId1 = await mangoShopperT.createShop('Mango Market');
+        shopId2 = await mangoShopperT.createShop('Mango Stall')
+        const deal1 = await mangoShopperT.createDeal(shopId1, 5, 28);
+        const deal2 = await mangoShopperT.createDeal(shopId2, 4, 28)
+            const fetchDeal1 = await mangoShopperT.dealsForShop(shopId1)
+        assert.deepEqual(fetchDeal1, []);
 
     });
 
@@ -125,7 +135,7 @@ describe('The mango shopper', function () {
 
     it('should return the recommeded deals', async function () {
 
-        const mangoShopperT = MangoShopper(db);
+        const mangoShopperT = mangoShopper(db);
 
         const shopId1 = await mangoShopperT.createShop('Mango Market');
         const shopId2 = await mangoShopperT.createShop('Max Mangos');

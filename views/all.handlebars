@@ -1,0 +1,8 @@
+<h2>LIST OF SHOPS WITH DEALS</h2>
+<form action="/all" method="GET">
+    {{#each allShops}}
+    <ul>
+        <li>{{this.name}}</li>
+    </ul>
+    {{/each}}
+</form>

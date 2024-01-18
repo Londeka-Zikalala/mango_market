@@ -1,1 +1,21 @@
 <h2>Best deals</h2>
+<form action="/" method="GET">
+{{#each deals}}
+<ol>
+     <li><span><h3>{{this.qty}}</h3> FOR <h3>R{{this.price}}</h3> AT <h3>{{this.shop_name}}</h3></span></li>
+</ol>
+{{/each}}
+</form>
+
+<form action="/recommend" method="POST">
+<label for="amount">Enter Amount</label>
+<input type="text" name="amount" value="{{amount}}">
+<input type="submit" value="Get Deals">
+</form>
+
+
+
+<nav>
+    <a href="/all">All Shops</a>
+    <a href="/create">Create Deal</a>
+</nav>

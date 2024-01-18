@@ -1,0 +1,18 @@
+<h2>Create A Deal</h2>
+
+<form action="/create" method="POST">
+<select name="shopName">
+  <option value="Mangolicious">Mangolicious</option>
+  <option value="Mango Pango">Mango Pango</option>
+  <option value="Shop 4 Mangos">Shop 4 Mangos</option>
+  <option value="Margots Mango Market">Margots Mango Market</option>
+  <option value="Magic Mangos">Magic Mangos</option>
+</select>
+<label for="price">Enter Price</label>
+<input type="number" name="price" value="{{price}}">
+<label for="quantity">Enter Quantity</label>
+<input type="number" name="quantity" value="{{quantity}}">
+<input type="submit" value="Create Deal">
+
+
+</form>
