@@ -14,6 +14,12 @@ body {
 	text-align: center;
 	width: 80%;
 	background-color: lightseagreen;
+	background-image: url('./images/raspuri-kesar-mango-fruit-500x500.webp');
+	background-size: cover;
+
+}
+h1{
+	color:yellowgreen;
 }
 li{
 	background-color: cornflowerblue;

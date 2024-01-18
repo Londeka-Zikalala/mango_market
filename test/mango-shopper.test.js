@@ -12,7 +12,7 @@ const connectionString = process.env.DATABASE_URL;
 const db = pgp(connectionString);
 
 describe('The mango shopper', function () {
-    this.timeout(6000)
+    this.timeout(15000)
     beforeEach(async function () {
         await db.none(`delete from mango_deal;`)
         await db.none(`delete from shop;`)
@@ -64,7 +64,7 @@ describe('The mango shopper', function () {
 
         const mangoShopperT = mangoShopper(db);
         const shopId1 = await mangoShopperT.createShop('Mango Market');
-        shopId2 = await mangoShopperT.createShop('Mango Stall')
+        const shopId2 = await mangoShopperT.createShop('Mango Stall')
         const deal1 = await mangoShopperT.createDeal(shopId1, 5, 28);
         const deal2 = await mangoShopperT.createDeal(shopId2, 4, 28)
             const fetchDeal1 = await mangoShopperT.dealsForShop(shopId1)

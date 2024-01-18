@@ -18,7 +18,7 @@ function mangoShopperRoutes(mangodb){
             let amount = req.body.amount
             let deals = await mangodb.recommendDeals(amount);
             res.render('index', {
-                deals
+                deals//list the deals on the same page
             })
         }catch (error) {
             console.error(error.message)
@@ -28,9 +28,10 @@ function mangoShopperRoutes(mangodb){
 
     async function allShopsRoute(req, res, next) {
         try {
+            //get the shops from the database
             let allShops = await mangodb.listShops()
             res.render('all', {
-                allShops
+                allShops // show all the shops
             })
         }catch (error) {
             console.error(error.message)
@@ -40,12 +41,13 @@ function mangoShopperRoutes(mangodb){
 
     async function createDealRoute(req, res, next) {
         try {
+            //get the variables from the template
             let shopName = req.body.shopName;
             let price = req.body.price;
             let quantity = req.body.quantity;
-
+            //insert and post the values
             await mangodb.createDeal(shopName, price, quantity)
-            
+            //show the page
             res.render('create')
         
         }
@@ -54,11 +56,29 @@ function mangoShopperRoutes(mangodb){
             next(error)
         }
     }
+
+    async function dealsForShopRoute(req, res, next) {
+        try {
+            let shopId = req.params.shopId;
+            let dealsForShop = await mangodb.dealsForShop(shopId)
+    
+            res.render('shop-deals', {
+                dealsForShop
+            })
+        } catch (error) {
+            console.error(error.message)
+            next(error)
+        }
+       
+    
+    }
+
     return {
         showIndex,
         recommededDealsRoute,
         allShopsRoute,
-        createDealRoute
+        createDealRoute,
+        dealsForShopRoute
     }
 }
 

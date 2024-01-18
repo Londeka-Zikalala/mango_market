@@ -7,15 +7,14 @@
 {{/each}}
 </form>
 
+<div class="recommend">
 <form action="/recommend" method="POST">
 <label for="amount">Enter Amount</label>
 <input type="text" name="amount" value="{{amount}}">
 <input type="submit" value="Get Deals">
+<a href="/">Show To Top Five Deals</a>
 </form>
+</div>
 
 
 
-<nav>
-    <a href="/all">All Shops</a>
-    <a href="/create">Create Deal</a>
-</nav>

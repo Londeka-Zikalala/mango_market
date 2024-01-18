@@ -2,13 +2,15 @@
 
 	 async function createShop(shopName) {
 		 try {
-			  //It must insert a unique shop to the shop table
-			 let shop = await db.one(`INSERT INTO shop (name) VALUES ($1) ON CONFLICT DO NOTHING RETURNING *`, [shopName]);
-			 //check if the shop exists 
-			  if (!shop) {
-				  throw new Error('Shop already exists');
-			  }
-			  return shop.id;
+			 // Check if the shop already exists
+		let shop = await db.oneOrNone(`SELECT * FROM shop WHERE name = $1`, [shopName]);
+
+		// If the shop doesn't exist, insert it into the shop table
+		if (!shop) {
+			shop = await db.one(`INSERT INTO shop (name) VALUES ($1) RETURNING *`, [shopName]);
+		}
+
+			 return shop
 	  
 		 } catch (error) {
 			 console.log(error.message)
@@ -32,10 +34,14 @@
 
 	async function dealsForShop(shopId) {
 		try {
-			     // Get all the deals for a specific shop from the mango_deal table, including the unit_price column
-				 let deals = await db.manyOrNone(`SELECT mango_deal.*, shop.name as shop_name, (price / qty) as unit_price FROM mango_deal INNER JOIN shop ON mango_deal.shop_id = shop.id WHERE shop_id = $1`, [shopId]);
-			// Return the deals array
-			return deals;
+			//get shop
+			let shop = await db.oneOrNone(`SELECT * FROM shop WHERE id = $1`, [shopId]);
+			if (shop) {
+				// Get all the deals for a specific shop from the mango_deal table, including the unit_price column
+				let deals = await db.manyOrNone(`SELECT mango_deal.*, shop.name as shop_name, (price / qty) as unit_price FROM mango_deal INNER JOIN shop ON mango_deal.shop_id = shop.id WHERE shop_id = $1`, [shopId]);
+				// Return the deals array
+				return deals;
+			}
 		} catch (error) {
 			console.error(error.message)
 		}
@@ -62,7 +68,7 @@
 			console.log(shop)
 
 			// It must insert a deal into the mango_deal table
-			let deal = await db.one(`INSERT INTO mango_deal (shop_id, qty, price) VALUES ($1, $2, $3) RETURNING *`, [shop, qty, price]);
+			let deal = await db.one(`INSERT INTO mango_deal (shop_id, qty, price) VALUES ($1, $2, $3) RETURNING *`, [shop.id, qty, price]);
 			return deal
 		} catch (error) {
 			console.log(error.message)
